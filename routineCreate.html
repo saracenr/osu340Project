@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create a routine</title>
+</head>
+<body>
+<div class="routineSelect">
+	<form>
+		<header>Select a routine to follow</header>
+		<div>
+			<!-- Could be a scroll box with available routines and display them?-->
+			<label for="chooseRoutine">Choose a routine!</label>
+			<select id="chooseRoutine">
+				<!-- populate options with js? -->
+				<option value="5/3/1">5/3/1</option>
+				<option value="StrongLifts">StrongLifts</option>
+				<option value="IceCream Fitness">IceCream Fitness</option>
+				<option value="PPL">PPL</option>
+		</div>
+		<input type="submit">
+	</form>
+</div>
+
+<div class="routineCreate">
+	<form action="" method="post">
+		<header>Create an exercise to add to the routine!</header>
+		<!-- Could be a scroll box with available workouts and also let custom entry? -->
+		<div>
+			<label for="workoutName">Choose an exercise!</label>
+			<input type="text" name="workoutName">
+		</div>
+		<div>
+			<label for="sets">Sets</label>
+			<input type="number" name="sets">
+		</div>
+		<div>
+			<label for="reps">Reps</label>
+			<input type="number" name="reps">
+		</div>
+		<div>
+			<label for="weight">Weight</label>
+			<input type="number" name="weight">
+		</div>
+		<input type="submit">
+	</form>	
+</div>
+</body>
+</html>

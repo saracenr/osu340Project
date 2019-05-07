@@ -1,4 +1,28 @@
+DROP TABLE IF EXISTS `exercise_muscle`;
+DROP TABLE IF EXISTS `workout`;
 DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `routine_exercise`;
+DROP TABLE IF EXISTS `routine`;
+DROP TABLE IF EXISTS `muscle`;
+
+
+CREATE TABLE `routine` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`name` varchar(255) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `exercise`;
+CREATE TABLE `exercise` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`name` varchar(255) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `exercise` (`name`) VALUES ('bench press'), ('pullup');
+
+
 CREATE TABLE `user` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`first_name` varchar(255) NOT NULL,
@@ -14,7 +38,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`first_name`, `last_name`, `date_of_birth`, `weight`, `height`, `gender`) VALUES ('George', 'Costanza', '1959-04-01', 230, 67, 'male'), ('Elaine', 'Benes', '1962-01-29', 63, 119, 'female');
 
-DROP TABLE IF EXISTS `workout`;
+
 CREATE TABLE `workout` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`user_id` int(11) NOT NULL,
@@ -31,31 +55,15 @@ CREATE TABLE `workout` (
 INSERT INTO `workout` (`user_id`, `date`, `exercise_id`, `reps`, `sets`, `weight`) VALUES (1, '2019-05-03', 1, 8, 1, 45), (1, '2019-05-03', 2, 4, 2, 35);
 
 
-DROP TABLE IF EXISTS `exercise`;
-CREATE TABLE `exercise` (
+CREATE TABLE `muscle` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` varchar(255) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-INSERT INTO `exercise` (`name`) VALUES ('bench press'), ('pullup');
-
-
-DROP TABLE IF EXISTS `routine`;
-CREATE TABLE `routine` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) NOT NULL,
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- LOCK TABLES `routine` WRITE;
--- INSERT INTO `routine` VALUES (), (), ();
--- UNLOCK TABLES;
+INSERT INTO `muscle` (`name`) VALUES ('shoulders'), ('chest'), ('lower back'), ('upper back'), ('forearms'), ('biceps'), ('triceps'), ('lower legs'), ('upper legs');
 
 
-
-DROP TABLE IF EXISTS `routine_exercise`;
 CREATE TABLE `routine_exercise` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`routine_id` int(11) NOT NULL,
@@ -68,18 +76,12 @@ CREATE TABLE `routine_exercise` (
 	CONSTRAINT `routine_exercise_fk2` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- LOCK TABLES `routine_exercise` WRITE;
--- INSERT INTO `routine_exercise` VALUES (), (), ();
--- UNLOCK TABLES;
 
-
-
-DROP TABLE IF EXISTS `exercise_muscle`;
 CREATE TABLE `exercise_muscle` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`exercise_id` int(11) NOT NULL,
 	`muscle_id` int(11) NOT NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
 	CONSTRAINT `exercise_muscle_fk1` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`),
 	CONSTRAINT `exercise_muscle_fk2` FOREIGN KEY (`muscle_id`) REFERENCES `muscle` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -87,13 +89,6 @@ CREATE TABLE `exercise_muscle` (
 INSERT INTO `exercise_muscle` (`exercise_id`, `muscle_id`) VALUES (1, 1), (1, 3), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7);
 
 
-DROP TABLE IF EXISTS `muscle`;
-CREATE TABLE `muscle` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) NOT NULL,
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `muscle` (`name`) VALUES ('shoulders'), ('chest'), ('lower back'), ('upper back'), ('forearms'), ('biceps'), ('triceps'), ('lower legs'), ('upper legs');
 
 

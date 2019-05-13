@@ -10,6 +10,10 @@
 		<header>Create an exercise to add to the routine!</header>
 		<!-- Could be a scroll box with available workouts and also let custom entry? -->
 		<div>
+			<label for="routineSelect">Choose the routine to add to!</label>
+			<input type="text" name="routineSelect">
+		</div>
+		<div>
 			<label for="workoutName">Choose an exercise!</label>
 			<input type="text" name="workoutName">
 		</div>
@@ -28,5 +32,54 @@
 		<input type="submit">
 	</form>	
 </div>
+<div class="table">
+    <table>
+      <thead>
+      <tr>
+          <th>Routine Name</th>
+          <th>Exercise Name</th>
+          <th>Sets</th>
+          <th>Reps</th>
+          <th>Weight</th>
+          <th>Days</th>
+        </tr>
+      </thead>
+      <tbody> 
+        <tr>
+          <td>5/3/1</td>
+          <td>Bench Press</td>
+          <td>3</td>
+          <td>10</td>
+          <td>150</td>
+          <td>A</td>
+          <td>
+            <form action="" method="post">
+              <input type="submit" class="Update" value="Update">
+            </form>
+          </td>
+            <form action="" method="post">
+          <td><input type="submit" class="delete" value="Delete"></td>
+           </form>
+        </tr>
+        <tr>
+          <td>5/3/1</td>
+          <td>Squats</td>
+          <td>3</td>
+          <td>5</td>
+          <td>200</td>
+          <td>B</td>
+          <td>
+            <form action="" method="post">
+              <input type="submit" class="Update" value="Update">
+            </form>
+          </td>
+          <td>
+           <form action="" method="post">
+          	<input type="submit" class="delete" value="Delete"></td>
+          </form>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

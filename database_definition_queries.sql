@@ -1,3 +1,5 @@
+USE cs340_herstadk;
+
 DROP TABLE IF EXISTS `exercise_muscle`;
 DROP TABLE IF EXISTS `workout`;
 DROP TABLE IF EXISTS `user`;

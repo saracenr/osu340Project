@@ -1,59 +1,65 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Create an exercise</title>
-</head>
-<body>
-<div class="exerciseCreate">
-	<form action="" method="post">
-		<header>Create an exercise!</header>
-		<!-- Could be a scroll box with available workouts and also let custom entry? -->
-		<div>
-			<label for="createExercise">Give the name of the exercise!</label>
-			<input type="text" name="createExercise">
+	<head>
+		<title>Create an exercise</title>
+		<meta charset="UTF-8"/>
+		<script type="text/javascript" src="exerciseCreate.js"></script>
+	</head>
+	<body>
+		<div class="exerciseCreate">
+			<form action="" method="post">
+				<header>Create an exercise!</header>
+				<!-- Could be a scroll box with available workouts and also let custom entry? -->
+				<div>
+					<label for="createExercise">Give the name of the exercise!</label>
+					<input type="text" name="createExercise">
+				</div>
+				<button type="button" id="addMuscleGroup">Add muscle group</button>
+				<button type="button " id="resetMuscleGroups">Reset</button>
+				<div id="muscleGroupContainer"></div>
+				<input type="submit">
+			</form>	
 		</div>
-		<input type="submit">
-	</form>	
-</div>
-<div class="table">
-    <table>
-      <thead>
-      <tr>
-          <th>ID</th>
-          <th>Exercise Name</th>
-          <th>Muscle Group</th>
-        </tr>
-      </thead>
-      <tbody> 
-        <tr>
-          <td>1</td>
-          <td>Bench Press</td>
-          <td>Chest</td>
-          <td>
-            <form action="" method="post">
-              <input type="submit" class="Update" value="Update">
-            </form>
-          </td>
-            <form action="" method="post">
-          <td><input type="submit" class="delete" value="Delete"></td>
-           </form>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Squats</td>
-          <td>Legs</td>
-          <td>
-            <form action="" method="post">
-              <input type="submit" class="Update" value="Update">
-            </form>
-          </td>
-          <td>
-           <form action="" method="post">
-          	<input type="submit" class="delete" value="Delete"></td>
-          </form>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</body>
+		</div>
+		<div class="table">
+			<table>
+			<thead>
+			<tr>
+				<th>ID</th>
+				<th>Exercise Name</th>
+				<th>Muscle Group</th>
+				</tr>
+			</thead>
+			<tbody> 
+				<tr>
+				<td>1</td>
+				<td>Bench Press</td>
+				<td>Chest</td>
+				<td>
+					<form action="" method="post">
+					<input type="submit" class="Update" value="Update">
+					</form>
+				</td>
+					<form action="" method="post">
+				<td><input type="submit" class="delete" value="Delete"></td>
+				</form>
+				</tr>
+				<tr>
+				<td>2</td>
+				<td>Squats</td>
+				<td>Legs</td>
+				<td>
+					<form action="" method="post">
+					<input type="submit" class="Update" value="Update">
+					</form>
+				</td>
+				<td>
+				<form action="" method="post">
+					<input type="submit" class="delete" value="Delete"></td>
+				</form>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+	</body>
 </html>

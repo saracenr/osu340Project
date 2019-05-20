@@ -30,6 +30,6 @@ def add_user():
 	inches = request.form['inches']
 	gender = request.form['gender']
 	query = 'INSERT INTO user (first_name, last_name, date_of_birth, weight, height, gender) VALUES (%s,%s,%s,%s,%s,%s)'
-	data = (first_name, last_name, date_of_birth, weight, feet+inches*.01, gender)
+	data = (first_name, last_name, date_of_birth, weight, feet, gender)
 	execute_query(db_connection, query, data)
 	return render_template('userCreate.html')

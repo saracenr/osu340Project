@@ -18,7 +18,7 @@ def browseUsers():
 	return render_template('display_Users.html', rows=result)
 
 
-@webapp.route('/userCreate', methods=['POST','GET'])
+@webapp.route('/add_user', methods=['POST','GET'])
 def add_user():
 	print('Added a new user!')
 	db_connection = connect_to_database()

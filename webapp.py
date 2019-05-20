@@ -19,17 +19,20 @@ def browseUsers():
 
 
 @webapp.route('/userCreate', methods=['POST','GET'])
-def add_user():
-	print('Added a new user!')
-	db_connection = connect_to_database()
-	first_name = request.form['first_name']
-	last_name = request.form['last_name']
-	date_of_birth = request.form['dob']
-	weight = request.form['weight']
-	feet = request.form['feet']
-	inches = request.form['inches']
-	gender = request.form['gender']
-	query = 'INSERT INTO user (first_name, last_name, date_of_birth, weight, height, gender) VALUES (%s,%s,%s,%s,%s,%s)'
-	data = (first_name, last_name, date_of_birth, weight, feet+inches*.01, gender)
-	execute_query(db_connection, query, data)
+if request.form == 0:
 	return render_template('userCreate.html')
+else:	
+	def add_user():
+		print('Added a new user!')
+		db_connection = connect_to_database()
+		first_name = request.form['first_name']
+		last_name = request.form['last_name']
+		date_of_birth = request.form['dob']
+		weight = request.form['weight']
+		feet = request.form['feet']
+		inches = request.form['inches']
+		gender = request.form['gender']
+		query = 'INSERT INTO user (first_name, last_name, date_of_birth, weight, height, gender) VALUES (%s,%s,%s,%s,%s,%s)'
+		data = (first_name, last_name, date_of_birth, weight, feet+inches*.01, gender)
+		execute_query(db_connection, query, data)
+		return render_template('userCreate.html')

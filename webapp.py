@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from db_connector.py import connect_to_database, execute_query
+from db_connector.db_connector import connect_to_database, execute_query
 
 webapp = Flask(__name__)
 

@@ -35,4 +35,4 @@ def add_user():
 	query = 'INSERT INTO user (first_name, last_name, date_of_birth, weight, height, gender) VALUES (%s,%s,%s,%s,%s,%s)'
 	data = (first_name, last_name, date_of_birth, weight, feet, gender)
 	execute_query(db_connection, query, data)
-	return render_template('userCreate.html')
+	return render_template('display_Users.html')

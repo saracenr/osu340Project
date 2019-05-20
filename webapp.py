@@ -18,7 +18,7 @@ def browseUsers():
 	return render_template('display_Users.html', rows=result)
 
 
-@webapp.route('/add_user', methods=['POST','GET'])
+@webapp.route('/userCreate', methods=['POST','GET'])
 def add_user():
 	print('Added a new user!')
 	db_connection = connect_to_database()
@@ -32,4 +32,4 @@ def add_user():
 	query = 'INSERT INTO user (first_name, last_name, date_of_birth, weight, height, gender) VALUES (%s,%s,%s,%s,%s,%s)'
 	data = (first_name, last_name, date_of_birth, weight, feet+inches*.01, gender)
 	execute_query(db_connection, query, data)
-	return render_template('display_Users.html')
+	return render_template('userCreate.html')

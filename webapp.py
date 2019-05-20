@@ -5,7 +5,7 @@ webapp = Flask(__name__)
 
 @webapp.route('/')
 def root():
-    return render_template('userCreate.html')
+    return 'Foobar'
 
 
 @webapp.route('/displayUsers')
@@ -17,6 +17,9 @@ def browseUsers():
 	print(result)
 	return render_template('display_Users.html', rows=result)
 
+@webapp.route('/userCreate')
+def userCreate():
+    return render_template('userCreate.html')
 
 @webapp.route('/add_user', methods=['POST','GET'])
 def add_user():

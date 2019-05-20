@@ -5,7 +5,7 @@ webapp = Flask(__name__)
 
 @webapp.route('/')
 def root():
-    return "<p>foobar</p>"
+    return render_template('userCreate.html')
 
 
 @webapp.route('/displayUsers')

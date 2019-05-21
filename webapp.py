@@ -76,7 +76,7 @@ def add_user():
 	return render_template('display_Users.html')
 
 @webapp.route('/add_exercise', methods=['POST','GET'])
-def add_user():
+def add_exercise():
 	print('Added a new exercise!')
 	db_connection = connect_to_database()
 	name = request.form['name']

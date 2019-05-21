@@ -2,10 +2,19 @@ from flask import Flask, render_template, request, redirect
 from db_connector.db_connector import connect_to_database, execute_query
 
 webapp = Flask(__name__)
+URL = "http://flip2.engr.oregonstate.edu:4422/"
+
 
 @webapp.route('/')
-def root():
-    return render_template('index.html')
+def index():
+	workoutTracking = URL + "workoutTracking"
+	displayUsers = URL + "displayUsers"
+	userCreate = URL + "userCreate"
+	routineCreate = URL + "routineCreate"
+	routineSelect = URL + "routineSelect"
+	muscleGroupCreate = URL + "muscleGroupCreate"
+	exerciseCreate = URL + "exerciseCreate"
+	return render_template('index.html', **locals())
 
 @webapp.route('/workoutTracking')
 def workouts():
@@ -29,7 +38,28 @@ def browseUsers():
 def userCreate():
     return render_template('userCreate.html')
 
-@webapp.route('/add_user', methods=['POST','GET'])
+@webapp.route('/routineCreate')
+def routineCreate():
+	return render_template('routineCreate.html')
+
+@webapp.route('/routineSelect')
+def routineSelect():
+	print("Fetching routine list")
+	db_connection = connect_to_database()
+	query = "SELECT id, name FROM routine;"
+	result = execute_query(db_connection, query).fetchall();
+	print(result)
+	return render_template('routineSelect.html', rows=result)
+
+@webapp.route('/muscleGroupCreate')
+def muscleGroupCreate():
+	return render_template('muscleGroupCreate.html')
+
+@webapp.route('/exerciseCreate')
+def exerciseCreate():
+	return render_template('exerciseCreate.html')
+
+@webapp.route('/add_User', methods=['POST','GET'])
 def add_user():
 	print('Added a new user!')
 	db_connection = connect_to_database()
@@ -44,3 +74,13 @@ def add_user():
 	data = (first_name, last_name, date_of_birth, weight, feet, gender)
 	execute_query(db_connection, query, data)
 	return render_template('display_Users.html')
+
+@webapp.route('/add_exercise', methods=['POST','GET'])
+def add_user():
+	print('Added a new exercise!')
+	db_connection = connect_to_database()
+	name = request.form['name']
+	query = 'INSERT INTO exercise (name) VALUES (%s)'
+	data = (name)
+	execute_query(db_connection, query, data)
+	return render_template('exerciseCreate.html')

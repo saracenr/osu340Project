@@ -14,7 +14,7 @@ def workouts():
 	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = 1;"
 	result = execute_query(db_connection, query).fetchall();
 	print(result)
-	return render_template('workoutTracking.html')
+	return render_template('workoutTracking.html', rows=result)
 
 @webapp.route('/displayUsers')
 def browseUsers():

@@ -5,8 +5,16 @@ webapp = Flask(__name__)
 
 @webapp.route('/')
 def root():
-    return 'Foobar'
+    return render_template('index.html')
 
+@webapp.route('/workoutTracking')
+def workouts():
+	print("Fetching workout")
+	db_connection = connect_to_database()
+	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = 1;"
+	result = execute_query(db_connection, query).fetchall();
+	print(result)
+    return render_template('workoutTracking.html')
 
 @webapp.route('/displayUsers')
 def browseUsers():

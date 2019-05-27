@@ -6,13 +6,21 @@
 </head>
 <body>
 <div class="workoutTracking">
-	<form action="" method="post">
+	<form action="/add_workout" method="post">
 		<header>Enter your exercise!</header>
 		<!-- Could be a scroll box with available workouts and also let custom entry? -->
 		<div>
-			<label for="workoutName">Choose an exercise!</label>
-			<input type="text" name="workoutName">
+			<label for="name">Choose an exercise!</label>
+			<select>
+        {% for e in exercises %}
+        <option value='{{ e[0] }}' >{{ e[1] }}</option>
+        {% endfor %}
+      </select>
 		</div>
+    <div>
+      <label for="userName">Select which user to add this workout for!</label>
+      <input type="text" name="userName">
+    </div>
 		<div>
 			<label for="sets">Sets</label>
 			<input type="number" name="sets">

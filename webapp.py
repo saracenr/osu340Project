@@ -21,9 +21,12 @@ def workouts():
 	print("Fetching workout")
 	db_connection = connect_to_database()
 	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = 1;"
+	exerciseQuery = "SELECT id, name FROM `exercise`;"
 	result = execute_query(db_connection, query).fetchall();
+	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
+	print(exercises)
 	print(result)
-	return render_template('workoutTracking.html', rows=result)
+	return render_template('workoutTracking.html', rows=result, exercises=exerciseList)
 
 @webapp.route('/displayUsers')
 def browseUsers():
@@ -81,6 +84,16 @@ def add_exercise():
 	db_connection = connect_to_database()
 	name = request.form['name']
 	query = 'INSERT INTO exercise (name) VALUES (%s)'
+	data = (name)
+	execute_query(db_connection, query, data)
+	return render_template('exerciseCreate.html')
+
+@webapp.route('/add_workout', methods=['POST','GET'])
+def add_workout():
+	print('Added a new workout!')
+	db_connection = connect_to_database()
+	name = request.form['name']
+	query = 'INSERT INTO workout (name) VALUES (%s)'
 	data = (name)
 	execute_query(db_connection, query, data)
 	return render_template('exerciseCreate.html')

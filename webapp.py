@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 from db_connector.db_connector import connect_to_database, execute_query
 
 webapp = Flask(__name__)
-URL = "http://flip2.engr.oregonstate.edu:4422/"
+URL = "http://flip1.engr.oregonstate.edu:3987/"
 
 
 @webapp.route('/')

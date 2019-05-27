@@ -43,6 +43,7 @@ def userCreate():
 
 @webapp.route('/routineCreate')
 def routineCreate():
+	db_connection = connect_to_database()
 	query = "SELECT re.id, r.name, e.name, re.sets, re.reps, re.day_of_the_week FROM `routine_exercise` as re INNER JOIN exercise as e ON e.id = re.exercise_id INNER JOIN routine AS r ON r.id = re.routine_id;"
 	exerciseQuery = "SELECT id, name FROM `exercise`;"
 	routineQuery = "SELECT id, name FROM `routine`;"

@@ -24,7 +24,7 @@ def workouts():
 	exerciseQuery = "SELECT id, name FROM `exercise`;"
 	result = execute_query(db_connection, query).fetchall();
 	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
-	print(exercises)
+	print(exerciseList)
 	print(result)
 	return render_template('workoutTracking.html', rows=result, exercises=exerciseList)
 

@@ -13,7 +13,7 @@
 			<label for="exerciseName">Choose an exercise!</label>
 			<select name='exerciseName'>
         {% for e in exercises %}
-        <option value='{{ e[0] }}' >{{ e[1] }}</option>
+        <option value='{{ e[0] }}' >{{ e[1] }} {{ u[2] }}</option>
         {% endfor %}
       </select>
 		</div>
@@ -21,7 +21,7 @@
       <label for="userName">Select which user to add this workout for!</label>
       <select name='userName'>
         {% for u in users %}
-        <option value='{{ u[0] }}' >{{ u[1] }}</option>
+        <option value='{{ u[0] }}' >{{ u[1] }} {{ u[2] }}</option>
         {% endfor %}
       </select>
     </div>

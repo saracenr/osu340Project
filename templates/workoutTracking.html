@@ -10,8 +10,8 @@
 		<header>Enter your exercise!</header>
 		<!-- Could be a scroll box with available workouts and also let custom entry? -->
 		<div>
-			<label for="name">Choose an exercise!</label>
-			<select>
+			<label for="exerciseName">Choose an exercise!</label>
+			<select name='exerciseName'>
         {% for e in exercises %}
         <option value='{{ e[0] }}' >{{ e[1] }}</option>
         {% endfor %}
@@ -19,7 +19,11 @@
 		</div>
     <div>
       <label for="userName">Select which user to add this workout for!</label>
-      <input type="text" name="userName">
+      <select name='userName'>
+        {% for u in users %}
+        <option value='{{ u[0] }}' >{{ u[1] }}</option>
+        {% endfor %}
+      </select>
     </div>
 		<div>
 			<label for="sets">Sets</label>

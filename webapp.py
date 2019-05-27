@@ -22,11 +22,11 @@ def workouts():
 	db_connection = connect_to_database()
 	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = 1;"
 	exerciseQuery = "SELECT id, name FROM `exercise`;"
+	userQuery = "SELECT id, name FROM 'user';"
 	result = execute_query(db_connection, query).fetchall();
 	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
-	print(exerciseList)
-	print(result)
-	return render_template('workoutTracking.html', rows=result, exercises=exerciseList)
+	userList = execute_query(db_connection, userQuery).fetchall();
+	return render_template('workoutTracking.html', rows=result, exercises=exerciseList, userList=users)
 
 @webapp.route('/displayUsers')
 def browseUsers():
@@ -92,8 +92,13 @@ def add_exercise():
 def add_workout():
 	print('Added a new workout!')
 	db_connection = connect_to_database()
-	name = request.form['name']
-	query = 'INSERT INTO workout (name) VALUES (%s)'
-	data = (name)
+	exerciseID = request.form['exerciseName']
+	userID = request.form['userName']
+	sets = request.form['sets']
+	reps = request.form['reps']
+	weight = request.form['weight']
+	date = request.form['date']
+	query = 'INSERT INTO workout (user_id, exercise_id, sets, reps, weight, date) VALUES (%s,%s,%s,%s,%s,%s)'
+	data = (exerciseID, userID, sets, reps, weight, date)
 	execute_query(db_connection, query, data)
-	return render_template('exerciseCreate.html')
+	return render_template('workoutTracking.html')

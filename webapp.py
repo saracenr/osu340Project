@@ -22,7 +22,7 @@ def workouts():
 	db_connection = connect_to_database()
 	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = 1;"
 	exerciseQuery = "SELECT id, name FROM `exercise`;"
-	userQuery = "SELECT id, first_name, last_name FROM 'user';"
+	userQuery = "SELECT id, first_name, last_name FROM `user`;"
 	result = execute_query(db_connection, query).fetchall();
 	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
 	userList = execute_query(db_connection, userQuery).fetchall();

@@ -26,7 +26,7 @@ def workouts():
 	result = execute_query(db_connection, query).fetchall();
 	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
 	userList = execute_query(db_connection, userQuery).fetchall();
-	return render_template('workoutTracking.html', rows=result, exercises=exerciseList, userList=users)
+	return render_template('workoutTracking.html', rows=result, exercises=exerciseList, users=userList)
 
 @webapp.route('/displayUsers')
 def browseUsers():

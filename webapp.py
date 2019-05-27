@@ -68,8 +68,8 @@ def create_routine():
 	print('Added a new routine!')
 	db_connection = connect_to_database()
 	routineName = request.form['routineName']
-	query = 'INSERT INTO routine (name) VALUES (%s);'
-	data = (routineName)
+	query = 'INSERT INTO routine name VALUES %s;'
+	data = routineName
 	execute_query(db_connection, query, data)
 	return render_template('routineCreate.html')
 

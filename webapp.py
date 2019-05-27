@@ -99,6 +99,6 @@ def add_workout():
 	weight = request.form['weight']
 	date = request.form['date']
 	query = 'INSERT INTO workout (user_id, exercise_id, sets, reps, weight, date) VALUES (%s,%s,%s,%s,%s,%s)'
-	data = (exerciseID, userID, sets, reps, weight, date)
+	data = (userID, exerciseID, sets, reps, weight, date)
 	execute_query(db_connection, query, data)
 	return render_template('workoutTracking.html')

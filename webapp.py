@@ -101,4 +101,11 @@ def add_workout():
 	query = 'INSERT INTO workout (user_id, exercise_id, sets, reps, weight, date) VALUES (%s,%s,%s,%s,%s,%s)'
 	data = (userID, exerciseID, sets, reps, weight, date)
 	execute_query(db_connection, query, data)
-	return render_template('workoutTracking.html')
+	# Run the display query using the user they selected
+	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = " + userID + ';'
+	exerciseQuery = "SELECT id, name FROM `exercise`;"
+	userQuery = "SELECT id, first_name, last_name FROM `user`;"
+	result = execute_query(db_connection, query).fetchall();
+	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
+	userList = execute_query(db_connection, userQuery).fetchall();
+	return render_template('workoutTracking.html', rows=result, exercises=exerciseList, users=userList)

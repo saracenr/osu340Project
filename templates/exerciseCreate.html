@@ -20,46 +20,16 @@
 				<input type="submit">
 			</form>	
 		</div>
-		</div>
-		<div class="table">
-			<table>
-			<thead>
+		<table>
+			{% for exercise in exercises %}
 			<tr>
-				<th>ID</th>
-				<th>Exercise Name</th>
-				<th>Muscle Group</th>
-				</tr>
-			</thead>
-			<tbody> 
-				<tr>
-				<td>1</td>
-				<td>Bench Press</td>
-				<td>Chest</td>
-				<td>
-					<form action="" method="post">
-					<input type="submit" class="Update" value="Update">
-					</form>
-				</td>
-					<form action="" method="post">
-				<td><input type="submit" class="delete" value="Delete"></td>
-				</form>
-				</tr>
-				<tr>
-				<td>2</td>
-				<td>Squats</td>
-				<td>Legs</td>
-				<td>
-					<form action="" method="post">
-					<input type="submit" class="Update" value="Update">
-					</form>
-				</td>
-				<td>
-				<form action="" method="post">
-					<input type="submit" class="delete" value="Delete"></td>
-				</form>
-				</tr>
-			</tbody>
-			</table>
-		</div>
+				<td> {{ exercise[1] }}</td>
+				<td> <input type='button' name='Update' value='Update'
+					onclick="window.location = '/update_exercise/{{exercise[0]}}'"> </td>
+				<td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_exercise/{{exercise[0]}}'"> </td>
+			</tr>
+			{% endfor %}
+		</table>
+		
 	</body>
 </html>

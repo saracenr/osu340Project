@@ -3,7 +3,7 @@ from db_connector.db_connector import connect_to_database, execute_query
 from time import sleep
 
 webapp = Flask(__name__)
-URL = "http://flip2.engr.oregonstate.edu:7890/"
+URL = "http://flip2.engr.oregonstate.edu:7891/"
 
 
 @webapp.route('/')
@@ -125,14 +125,17 @@ def add_exercise():
 	query = 'INSERT INTO exercise (name) VALUES (%s)'
 	data = (name,)
 	execute_query(db_connection, query, data)
-	# db_connection = connect_to_database()
-	query = 'SELECT e.id FROM exercise AS e WHERE e.name = ' + name
-	exercise_id = execute_query(db_connection, query).fetchall()
+	db_connection = connect_to_database()
+	query = "SELECT id FROM exercise WHERE name = '" + name + "'" 
+	exerciseResult = execute_query(db_connection, query).fetchall()
+	exercise_id = exerciseResult[0][0]
+	print(exerciseResult)
 	print(exercise_id)
-	for muscleGroup in request.form.getlist('muscleGroups'):
-		print(muscleGroup)
-		# query = 'INSERT INTO exercise_muscle (exercise_id, muscle_id) VALUES (%s,%s)'
-		# data = (name,)
+	for muscle_id in request.form.getlist('muscleGroups'):
+		print(muscle_id)
+		query = 'INSERT INTO exercise_muscle (exercise_id, muscle_id) VALUES (%s,%s)'
+		data = (exercise_id, muscle_id)
+		execute_query(db_connection, query, data)
 
 
 	print('Fetching muscle group and exercise lists')

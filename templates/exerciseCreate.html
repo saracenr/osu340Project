@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Create an exercise</title>
 		<meta charset="UTF-8"/>
+		<title>Create an exercise</title>
 		<script type="text/javascript" src="static/exerciseCreate.js"></script>
 	</head>
 	<body>
 		<div class="exerciseCreate">
-			<form action="" method="post">
+			<form action="/add_exercise" method="post">
 				<header>Create an exercise!</header>
 				<!-- Could be a scroll box with available workouts and also let custom entry? -->
 				<div>
-					<label for="createExercise">Give the name of the exercise!</label>
-					<input type="text" name="createExercise">
+					<label for="createExercise">Exercise name</label>
+					<input type="text" name="name">
 				</div>
-				<button type="button" id="addMuscleGroup">Add muscle group</button>
-				<button type="button " id="resetMuscleGroups">Reset</button>
-				<div id="muscleGroupContainer"></div>
+				{% for muscleGroup in muscleGroups %}
+				<input type="checkbox" name="muscleGroups" value='{{ muscleGroup[0] }}'>{{ muscleGroup[1] }}</input>
+				{% endfor %}
 				<input type="submit">
 			</form>	
 		</div>

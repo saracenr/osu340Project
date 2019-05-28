@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from db_connector.db_connector import connect_to_database, execute_query
+from time import sleep
 
 webapp = Flask(__name__)
 URL = "http://flip2.engr.oregonstate.edu:7890/"
@@ -92,7 +93,13 @@ def muscleGroupCreate():
 
 @webapp.route('/exerciseCreate')
 def exerciseCreate():
-	return render_template('exerciseCreate.html')
+	print('Fetching muscle group and exercise lists')
+	db_connection = connect_to_database()
+	muscleGroupQuery = "SELECT id, name FROM muscle"
+	muscleGroupResult = execute_query(db_connection, muscleGroupQuery).fetchall()
+	exerciseQuery = "SELECT id, name FROM exercise"
+	exerciseResult = execute_query(db_connection, exerciseQuery).fetchall()
+	return render_template('exerciseCreate.html', muscleGroups=muscleGroupResult, exercises=exerciseResult)
 
 @webapp.route('/add_User', methods=['POST','GET'])
 def add_user():
@@ -116,9 +123,25 @@ def add_exercise():
 	db_connection = connect_to_database()
 	name = request.form['name']
 	query = 'INSERT INTO exercise (name) VALUES (%s)'
-	data = (name)
+	data = (name,)
 	execute_query(db_connection, query, data)
-	return render_template('exerciseCreate.html')
+	# db_connection = connect_to_database()
+	query = 'SELECT e.id FROM exercise AS e WHERE e.name = ' + name
+	exercise_id = execute_query(db_connection, query).fetchall()
+	print(exercise_id)
+	for muscleGroup in request.form.getlist('muscleGroups'):
+		print(muscleGroup)
+		# query = 'INSERT INTO exercise_muscle (exercise_id, muscle_id) VALUES (%s,%s)'
+		# data = (name,)
+
+
+	print('Fetching muscle group and exercise lists')
+	db_connection = connect_to_database()
+	muscleGroupQuery = "SELECT id, name FROM muscle"
+	muscleGroupResult = execute_query(db_connection, muscleGroupQuery).fetchall()
+	exerciseQuery = "SELECT id, name FROM exercise"
+	exerciseResult = execute_query(db_connection, exerciseQuery).fetchall()
+	return render_template('exerciseCreate.html', muscleGroups=muscleGroupResult, exercises=exerciseResult)
 
 @webapp.route('/add_muscle_group', methods=['POST', 'GET'])
 def add_muscle_group():

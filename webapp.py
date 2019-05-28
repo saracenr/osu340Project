@@ -60,7 +60,6 @@ def routineCreate():
 
 @webapp.route('/add_routine')
 def add_routine():
-
 	return render_template('routineCreate.html')
 
 @webapp.route('/create_routine', methods=['POST','GET'])
@@ -127,7 +126,8 @@ def add_muscle_group():
 	db_connection = connect_to_database()
 	name = request.form['name']
 	query = 'INSERT INTO muscle (name) VALUES (%s)'
-	data = (name)
+	data = (name,) # comma needed to force tuple
+	print(data)
 	execute_query(db_connection, query, data)
 	
 	print('foobar')
@@ -147,6 +147,7 @@ def add_workout():
 	date = request.form['date']
 	query = 'INSERT INTO workout (user_id, exercise_id, sets, reps, weight, date) VALUES (%s,%s,%s,%s,%s,%s)'
 	data = (userID, exerciseID, sets, reps, weight, date)
+	print(data)
 	execute_query(db_connection, query, data)
 	# Run the display query using the user they selected
 	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = " + userID + ';'

@@ -1,55 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Add Musclegroup</title>
+	<title>Muscle Groups</title>
 	<meta charset="UTF-8"/>
 </head>
 <body>
-<div class="musclegroupAdd">
-	<form action="" method="post">
-		<header>Create a musclegroup</header>
-		<!-- Could be a scroll box with available workouts and also let custom entry? -->
-		<div>
-			<label for="musclegroupName">Give the name of the musclegroup!</label>
-			<input type="text" name="musclegroupName">
-		</div>
-		<input type="submit">
-	</form>	
-</div>
-<div class="table">
+  <div class="musclegroupAdd">
+    <form action="/add_muscle_group" method="post">
+      <div>
+        <label for="name">Add a new muscle group</label>
+        <input type="text" name="name">
+      </div>
+      <input type="submit">
+    </form>	
+  </div>
+  <div class="table">
     <table>
       <thead>
-      <tr>
-          <th>ID</th>
-          <th>Muscle Group</th>
+        <tr>
+            <th>Muscle Groups</th>
         </tr>
       </thead>
-      <tbody> 
-        <tr>
-          <td>1</td>
-          <td>Chest</td>
-          <td>
-            <form action="" method="post">
-              <input type="submit" class="Update" value="Update">
-            </form>
-          </td>
-            <form action="" method="post">
-          <td><input type="submit" class="delete" value="Delete"></td>
-           </form>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Thighs</td>
-          <td>
-            <form action="" method="post">
-              <input type="submit" class="Update" value="Update">
-            </form>
-          </td>
-          <td>
-           <form action="" method="post">
-          	<input type="submit" class="delete" value="Delete"></td>
-          </form>
-        </tr>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td> {{ row[0] }}</td>
+            <td> <input type='button' name='Update' value='Update'
+              onclick="window.location = '/update_muscle/{{row[0]}}'"> </td>
+            <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_muscle/{{row[0]}}'"> </td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

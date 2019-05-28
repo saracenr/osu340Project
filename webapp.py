@@ -23,9 +23,9 @@ def workouts():
 	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = 1;"
 	exerciseQuery = "SELECT id, name FROM `exercise`;"
 	userQuery = "SELECT id, first_name, last_name FROM `user`;"
-	result = execute_query(db_connection, query).fetchall();
-	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
-	userList = execute_query(db_connection, userQuery).fetchall();
+	result = execute_query(db_connection, query).fetchall()
+	exerciseList = execute_query(db_connection, exerciseQuery).fetchall()
+	userList = execute_query(db_connection, userQuery).fetchall()
 	return render_template('workoutTracking.html', rows=result, exercises=exerciseList, users=userList)
 
 @webapp.route('/displayUsers')
@@ -33,7 +33,7 @@ def browseUsers():
 	print("Fetching user list")
 	db_connection = connect_to_database()
 	query = "SELECT id, first_name, last_name, date_of_birth, weight, height, gender, routine_id FROM user;"
-	result = execute_query(db_connection, query).fetchall();
+	result = execute_query(db_connection, query).fetchall()
 	print(result)
 	return render_template('display_Users.html', rows=result)
 
@@ -50,9 +50,9 @@ def routineCreate():
 	print(query)
 	print(exerciseQuery)
 	print(routineQuery)
-	result = execute_query(db_connection, query).fetchall();
-	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
-	routineList = execute_query(db_connection, routineQuery).fetchall();
+	result = execute_query(db_connection, query).fetchall()
+	exerciseList = execute_query(db_connection, exerciseQuery).fetchall()
+	routineList = execute_query(db_connection, routineQuery).fetchall()
 	print(result)
 	print(exerciseList)
 	print(routineList)
@@ -78,13 +78,18 @@ def routineSelect():
 	print("Fetching routine list")
 	db_connection = connect_to_database()
 	query = "SELECT id, name FROM routine;"
-	result = execute_query(db_connection, query).fetchall();
+	result = execute_query(db_connection, query).fetchall()
 	print(result)
 	return render_template('routineSelect.html', rows=result)
 
 @webapp.route('/muscleGroupCreate')
 def muscleGroupCreate():
-	return render_template('muscleGroupCreate.html')
+	print("Fetching muscle group list")
+	db_connection = connect_to_database()
+	query = "SELECT name FROM muscle"
+	result = execute_query(db_connection, query).fetchall()
+	print(result)
+	return render_template('muscleGroupCreate.html', rows=result)
 
 @webapp.route('/exerciseCreate')
 def exerciseCreate():
@@ -116,6 +121,20 @@ def add_exercise():
 	execute_query(db_connection, query, data)
 	return render_template('exerciseCreate.html')
 
+@webapp.route('/add_muscle_group', methods=['POST', 'GET'])
+def add_muscle_group():
+	print('Added a new muscle group!')
+	db_connection = connect_to_database()
+	name = request.form['name']
+	query = 'INSERT INTO muscle (name) VALUES (%s)'
+	data = (name)
+	execute_query(db_connection, query, data)
+	
+	print('foobar')
+	query = 'SELECT name FROM `muscle`'
+	result = execute_query(db_connection, query).fetchall()
+	return render_template('muscleGroupCreate.html', rows=result)
+
 @webapp.route('/add_workout', methods=['POST','GET'])
 def add_workout():
 	print('Added a new workout!')
@@ -133,7 +152,7 @@ def add_workout():
 	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = " + userID + ';'
 	exerciseQuery = "SELECT id, name FROM `exercise`;"
 	userQuery = "SELECT id, first_name, last_name FROM `user`;"
-	result = execute_query(db_connection, query).fetchall();
-	exerciseList = execute_query(db_connection, exerciseQuery).fetchall();
-	userList = execute_query(db_connection, userQuery).fetchall();
+	result = execute_query(db_connection, query).fetchall()
+	exerciseList = execute_query(db_connection, exerciseQuery).fetchall()
+	userList = execute_query(db_connection, userQuery).fetchall()
 	return render_template('workoutTracking.html', rows=result, exercises=exerciseList, users=userList)

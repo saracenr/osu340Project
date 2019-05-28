@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Edit exercise</title>
+	</head>
+	<body>
+        <form action="/update_exercise" method="post">
+            <header>Editing exercise: {{ exercise[1] }}</header>
+            <input type="hidden" name="exercise_id" value = "{{ exercise[0] }}">
+            {% for muscleGroup in selectedMuscles %}
+            <input type="checkbox" name="muscleGroups" value='{{ muscleGroup[0] }}' checked=checked>{{ muscleGroup[1] }}</input>
+            {% endfor %}
+            {% for muscleGroup in unselectedMuscles %}
+            <input type="checkbox" name="muscleGroups" value='{{ muscleGroup[0] }}'>{{ muscleGroup[1] }}</input>
+            {% endfor %}
+            <input type="submit">
+        </form>	
+	</body>
+</html>

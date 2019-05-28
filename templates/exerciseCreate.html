@@ -24,8 +24,8 @@
 			{% for exercise in exercises %}
 			<tr>
 				<td> {{ exercise[1] }}</td>
-				<td> <input type='button' name='Update' value='Update'
-					onclick="window.location = '/update_exercise/{{exercise[0]}}'"> </td>
+				<td> <input type='button' name='Edit' value='Edit'
+					onclick="window.location = '/update_exercise?id={{ exercise[0] }}'"> </td>
 				<td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_exercise/{{exercise[0]}}'"> </td>
 			</tr>
 			{% endfor %}

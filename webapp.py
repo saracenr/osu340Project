@@ -125,7 +125,6 @@ def add_exercise():
 	query = 'INSERT INTO exercise (name) VALUES (%s)'
 	data = (name,)
 	execute_query(db_connection, query, data)
-	db_connection = connect_to_database()
 	query = "SELECT id FROM exercise WHERE name = '" + name + "'" 
 	exerciseResult = execute_query(db_connection, query).fetchall()
 	exercise_id = exerciseResult[0][0]
@@ -136,15 +135,43 @@ def add_exercise():
 		query = 'INSERT INTO exercise_muscle (exercise_id, muscle_id) VALUES (%s,%s)'
 		data = (exercise_id, muscle_id)
 		execute_query(db_connection, query, data)
-
-
 	print('Fetching muscle group and exercise lists')
-	db_connection = connect_to_database()
 	muscleGroupQuery = "SELECT id, name FROM muscle"
 	muscleGroupResult = execute_query(db_connection, muscleGroupQuery).fetchall()
 	exerciseQuery = "SELECT id, name FROM exercise"
 	exerciseResult = execute_query(db_connection, exerciseQuery).fetchall()
 	return render_template('exerciseCreate.html', muscleGroups=muscleGroupResult, exercises=exerciseResult)
+
+@webapp.route('/update_exercise', methods=['POST', 'GET'])
+def update_exercise():
+	db_connection = connect_to_database()
+	if request.method == 'GET':
+		print('Editing exercise!')
+		data = (request.args.get('id'),)
+		exerciseQuery = "SELECT name FROM exercise WHERE id=(%s)"
+		exerciseResult = execute_query(db_connection, exerciseQuery, data).fetchall()
+		selectedMusclesQuery = "SELECT m.id, m.name FROM exercise AS e JOIN exercise_muscle AS em ON e.id=em.exercise_id JOIN muscle AS m ON em.muscle_id=m.id WHERE e.id=(%s)"
+		selectedMusclesResult = execute_query(db_connection, selectedMusclesQuery, data).fetchall()
+		unselectedMusclesQuery = "SELECT m.id, m.name FROM muscle AS m WHERE m.id NOT IN (SELECT m.id FROM exercise AS e JOIN exercise_muscle AS em ON e.id=em.exercise_id JOIN muscle AS m ON em.muscle_id=m.id WHERE e.id=(%s))"
+		unselectedMusclesResult = execute_query(db_connection, unselectedMusclesQuery, data).fetchall()
+		return render_template('updateExercise.html', exercise=exerciseResult, selectedMuscles=selectedMusclesResult, unselectedMuscles=unselectedMusclesResult)
+	elif request.method == 'POST':
+		print('Updating exercise!')
+		exercise_id = request.form['exercise_id']
+		data = (exercise_id,)
+		muscleDeleteQuery = "DELETE FROM exercise_muscle WHERE exercise_id=(%s)"
+		execute_query(db_connection, muscleDeleteQuery, data)
+		for muscle_id in request.form.getlist('muscleGroups'):
+			print(muscle_id)
+			query = 'INSERT INTO exercise_muscle (exercise_id, muscle_id) VALUES (%s,%s)'
+			data = (exercise_id, muscle_id)
+			execute_query(db_connection, query, data)
+		print('Fetching muscle group and exercise lists')
+		muscleGroupQuery = "SELECT id, name FROM muscle"
+		muscleGroupResult = execute_query(db_connection, muscleGroupQuery).fetchall()
+		exerciseQuery = "SELECT id, name FROM exercise"
+		exerciseResult = execute_query(db_connection, exerciseQuery).fetchall()
+		return render_template('exerciseCreate.html', muscleGroups=muscleGroupResult, exercises=exerciseResult)
 
 @webapp.route('/add_muscle_group', methods=['POST', 'GET'])
 def add_muscle_group():

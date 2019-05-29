@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Update Muscle</title>
+	<meta charset="UTF-8"/>
+</head>
+<body>
+<div class="updateMuscle">
+	<form id="updateMuscle" action="/update_muscle/{{ muscle[0] }}" method="post">
+		<header>Update muscle</header>
+		<div>
+			<input type="hidden" name="muscle_id" value="{{ muscle[0] }}">
+		</div>
+		<div>
+			<label for="name">Name</label>
+			<input type="text" name="name" value="{{ muscle[1] }}">
+		</div>
+		<input type="submit">
+	</form>	
+</div>
+
+</body>
+</html>

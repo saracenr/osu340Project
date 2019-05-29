@@ -95,10 +95,42 @@ def routineSelect():
 def muscleGroupCreate():
 	print("Fetching muscle group list")
 	db_connection = connect_to_database()
-	query = "SELECT name FROM muscle"
+	query = "SELECT id, name FROM muscle"
 	result = execute_query(db_connection, query).fetchall()
 	print(result)
 	return render_template('muscleGroupCreate.html', rows=result)
+
+@webapp.route('/add_muscle_group', methods=['POST', 'GET'])
+def add_muscle_group():
+	print('Added a new muscle group!')
+	db_connection = connect_to_database()
+	name = request.form['name']
+	query = 'INSERT INTO muscle (name) VALUES (%s)'
+	data = (name,) # comma needed to force tuple
+	print(data)
+	execute_query(db_connection, query, data)
+	
+	print('foobar')
+	query = 'SELECT id, name FROM `muscle`'
+	result = execute_query(db_connection, query).fetchall()
+	return render_template('muscleGroupCreate.html', rows=result)
+
+@webapp.route('/update_muscle/<int:id>', methods=['POST','GET'])
+def update_muscle(id):
+	db_connection = connect_to_database()
+	if request.method == 'GET':
+		query = "SELECT id, name FROM muscle WHERE id = %s;" % (id)
+		result = execute_query(db_connection, query).fetchone()
+		return render_template('muscleGroupUpdate.html', muscle=result)
+	elif request.method == 'POST':
+		print('Updating muscle!')
+		muscle_id = request.form['muscle_id']
+		name = request.form['name']		
+		query = 'UPDATE muscle SET name=%s WHERE id=%s;'
+		data = (name, muscle_id)
+		print('data: ', data)
+		execute_query(db_connection, query, data)
+		return redirect(url_for('muscleGroupCreate'))	
 
 @webapp.route('/exerciseCreate')
 def exerciseCreate():
@@ -204,21 +236,6 @@ def update_exercise():
 		exerciseQuery = "SELECT id, name FROM exercise"
 		exerciseResult = execute_query(db_connection, exerciseQuery).fetchall()
 		return render_template('exerciseCreate.html', muscleGroups=muscleGroupResult, exercises=exerciseResult)
-
-@webapp.route('/add_muscle_group', methods=['POST', 'GET'])
-def add_muscle_group():
-	print('Added a new muscle group!')
-	db_connection = connect_to_database()
-	name = request.form['name']
-	query = 'INSERT INTO muscle (name) VALUES (%s)'
-	data = (name,) # comma needed to force tuple
-	print(data)
-	execute_query(db_connection, query, data)
-	
-	print('foobar')
-	query = 'SELECT name FROM `muscle`'
-	result = execute_query(db_connection, query).fetchall()
-	return render_template('muscleGroupCreate.html', rows=result)
 
 @webapp.route('/add_workout', methods=['POST','GET'])
 def add_workout():

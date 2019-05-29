@@ -130,7 +130,7 @@ def update_user(id):
 		query = 'UPDATE user SET first_name=%s, last_name=%s, date_of_birth=%s, weight=%s, height=%s, gender=%s WHERE id=%s;'
 		data = (first_name, last_name, date_of_birth, weight, feet, gender, userID)
 		execute_query(db_connection, query, data)
-		return redirect(url_for('browseUsers.html'))
+		return redirect(url_for('browseUsers'))
 
 
 @webapp.route('/add_User', methods=['POST','GET'])

@@ -110,6 +110,29 @@ def exerciseCreate():
 	exerciseResult = execute_query(db_connection, exerciseQuery).fetchall()
 	return render_template('exerciseCreate.html', muscleGroups=muscleGroupResult, exercises=exerciseResult)
 
+@webapp.route('/update_user/<int: id>', methods=['POST','GET'])
+def update_user(id):
+	db_connection = connect_to_database()
+	if request.method == 'GET':
+		userQuery = "SELECT id, first_name, last_name, height, weight, date_of_birth, gender FROM user WHERE id = %s;" % (id)
+		userResult = execute_query(db_connection, userQuery).fetchone()
+		return render_template('userUpdate.html', user=userResult)
+	elif request.method == 'POST':
+		print('Update user!')
+		userID = request.form['user_id']
+		first_name = request.form['first_name']
+		last_name = request.form['last_name']
+		date_of_birth = request.form['dob']
+		weight = request.form['weight']
+		feet = request.form['feet']
+		# inches = request.form['inches']
+		gender = request.form['gender']
+		query = 'UPDATE user SET first_name=%s, last_name=%s, date_of_birth=%s, weight=%s, height=%s, gender=%s WHERE id=%s;'
+		data = (first_name, last_name, date_of_birth, weight, feet, gender, userID)
+		execute_query(db_connection, query, data)
+		return redirect(url_for('browseUsers.html'))
+
+
 @webapp.route('/add_User', methods=['POST','GET'])
 def add_user():
 	print('Added a new user!')

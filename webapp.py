@@ -3,7 +3,7 @@ from db_connector.db_connector import connect_to_database, execute_query
 from time import sleep
 
 webapp = Flask(__name__)
-URL = "http://flip2.engr.oregonstate.edu:7891/"
+URL = "http://flip2.engr.oregonstate.edu:7892/"
 
 
 @webapp.route('/')
@@ -68,8 +68,8 @@ def create_routine():
 	print('Added a new routine!')
 	db_connection = connect_to_database()
 	routineName = request.form['routineName']
-	query = 'INSERT INTO routine name VALUES %s;'
-	data = routineName
+	query = 'INSERT INTO routine (name) VALUES (%s);'
+	data = (routineName,)
 	execute_query(db_connection, query, data)
 	return render_template('routineCreate.html')
 

@@ -110,12 +110,11 @@ def exerciseCreate():
 	exerciseResult = execute_query(db_connection, exerciseQuery).fetchall()
 	return render_template('exerciseCreate.html', muscleGroups=muscleGroupResult, exercises=exerciseResult)
 
-@webapp.route('/update_user/', methods=['POST','GET'])
+@webapp.route('/update_user/<int:id>', methods=['POST','GET'])
 def update_user(id):
 	db_connection = connect_to_database()
 	if request.method == 'GET':
-		data = (request.args.get('id'),)
-		userQuery = "SELECT id, first_name, last_name, height, weight, date_of_birth, gender FROM user WHERE id = %s;" % (data)
+		userQuery = "SELECT id, first_name, last_name, height, weight, date_of_birth, gender FROM user WHERE id = %s;" % (id)
 		userResult = execute_query(db_connection, userQuery).fetchone()
 		return render_template('userUpdate.html', user=userResult)
 	elif request.method == 'POST':

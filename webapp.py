@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from db_connector.db_connector import connect_to_database, execute_query
 from time import sleep
 
@@ -59,9 +59,18 @@ def routineCreate():
 	print(routineList)
 	return render_template('routineCreate.html', rows=result, routines=routineList, exercises=exerciseList)
 
-@webapp.route('/add_routine')
+@webapp.route('/add_routine', methods=['POST','GET'])
 def add_routine():
-	return render_template('routineCreate.html')
+	db_connection = connect_to_database()
+	routine = request.form['routineSelect']
+	exercise = request.form['exerciseName']
+	sets = request.form['sets']
+	reps = request.form['reps']
+	days = request.form['days']
+	query = 'INSERT INTO routine_exercise (routine_id, exercise_id, sets, reps, day_of_the_week) VALUES (%s,%s,%s,%s,%s);'
+	data = (routine,exercise,sets,reps,days)
+	execute_query(db_connection, query, data)
+	return redirect(url_for('routineCreate'))
 
 @webapp.route('/create_routine', methods=['POST','GET'])
 def create_routine():

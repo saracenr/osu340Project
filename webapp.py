@@ -165,7 +165,7 @@ def update_user(id):
 		return redirect(url_for('browseUsers'))
 
 
-@webapp.route('/add_User', methods=['POST','GET'])
+@webapp.route('/add_user', methods=['POST','GET'])
 def add_user():
 	print('Added a new user!')
 	db_connection = connect_to_database()

@@ -186,7 +186,16 @@ def add_user():
 	query = 'INSERT INTO user (first_name, last_name, date_of_birth, weight, height, gender) VALUES (%s,%s,%s,%s,%s,%s)'
 	data = (first_name, last_name, date_of_birth, weight, feet, gender)
 	execute_query(db_connection, query, data)
-	return render_template('display_Users.html')
+	return redirect(url_for('browseUsers'))
+
+@webapp.route('/delete_user/<int:id>', methods=['POST','GET'])
+def delete_user(id):
+	db_connection = connect_to_database()
+	print('Deleting user!')
+	query = 'DELETE FROM user WHERE id=%s;'
+	data = (id,)
+	execute_query(db_connection, query, data)
+	return redirect(url_for('browseUsers'))
 
 @webapp.route('/add_exercise', methods=['POST','GET'])
 def add_exercise():

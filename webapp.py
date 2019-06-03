@@ -80,7 +80,14 @@ def create_routine():
 	query = 'INSERT INTO routine (name) VALUES (%s);'
 	data = (routineName,)
 	execute_query(db_connection, query, data)
-	return render_template('routineCreate.html')
+	#Fill routineCreate html page
+	query = "SELECT re.id, r.name, e.name, re.sets, re.reps, re.day_of_the_week FROM `routine_exercise` as re INNER JOIN exercise as e ON e.id = re.exercise_id INNER JOIN routine AS r ON r.id = re.routine_id;"
+	exerciseQuery = "SELECT id, name FROM `exercise`;"
+	routineQuery = "SELECT id, name FROM `routine`;"
+	result = execute_query(db_connection, query).fetchall()
+	exerciseList = execute_query(db_connection, exerciseQuery).fetchall()
+	routineList = execute_query(db_connection, routineQuery).fetchall()
+	return render_template('routineCreate.html', rows=result, routines=routineList, exercises=exerciseList)
 
 @webapp.route('/routineSelect')
 def routineSelect():

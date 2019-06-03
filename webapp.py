@@ -18,7 +18,7 @@ def index():
 	return render_template('index.html', **locals())
 
 @webapp.route('/workoutTracking')
-def workouts():
+def workoutTracking():
 	print("Fetching workout")
 	db_connection = connect_to_database()
 	query = "SELECT w.id, e.name, w.sets, w.reps, w.weight, w.date, w.user_id FROM `workout` as w INNER JOIN exercise as e ON e.id = w.exercise_id WHERE w.user_id = 1;"
@@ -137,7 +137,7 @@ def update_muscle(id):
 		data = (name, muscle_id)
 		print('data: ', data)
 		execute_query(db_connection, query, data)
-		return redirect(url_for('muscleGroupCreate'))	
+		return redirect(url_for('muscleGroupCreate'))
 
 @webapp.route('/exerciseCreate')
 def exerciseCreate():
@@ -275,3 +275,31 @@ def add_workout():
 	exerciseList = execute_query(db_connection, exerciseQuery).fetchall()
 	userList = execute_query(db_connection, userQuery).fetchall()
 	return render_template('workoutTracking.html', rows=result, exercises=exerciseList, users=userList)
+
+	@webapp.route('/update_workout/<int:id>', methods=['POST','GET'])
+def update_workout(id):
+	db_connection = connect_to_database()
+	if request.method == 'GET':
+		#query for specific workout
+		query = "SELECT id, exercise_id, user_id, sets, reps, weight, date FROM workout WHERE id = %s;" % (id)
+		result = execute_query(db_connection, query).fetchone()
+		#queries for exercise and name list boxes
+		exerciseQuery = "SELECT id, name FROM `exercise`;"
+		userQuery = "SELECT id, first_name, last_name FROM `user`;"
+		exerciseList = execute_query(db_connection, exerciseQuery).fetchall()
+		userList = execute_query(db_connection, userQuery).fetchall()
+		return render_template('updateWorkout.html', workout=result, exercises=exerciseList, users=userList)
+	elif request.method == 'POST':
+		print('Updating workout!')
+		workoutID = request.form['workout_id']
+		exerciseID = request.form['exerciseName']
+		userID = request.form['userName']
+		sets = request.form['sets']
+		reps = request.form['reps']
+		weight = request.form['weight']
+		date = request.form['date']	
+		query = 'UPDATE workout SET exercise_id=%s, user_id=%s, sets=%s, reps=%s, weight=%s, date=%s WHERE id=%s;'
+		data = (exerciseID, userID, sets, reps, weight, date, workoutID)
+		print('data: ', data)
+		execute_query(db_connection, query, data)
+		return redirect(url_for('workoutTracking'))

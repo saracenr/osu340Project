@@ -303,3 +303,11 @@ def update_workout(id):
 		print('data: ', data)
 		execute_query(db_connection, query, data)
 		return redirect(url_for('workoutTracking'))
+
+@webapp.route('/delete_workout/<int:id>', methods=['POST','GET'])
+def delete_workout(id):
+	db_connection = connect_to_database()	
+	query = 'DELETE FROM workout WHERE id=%s;'
+	data = (id,)
+	execute_query(db_connection, query, data)
+	return redirect(url_for('workoutTracking'))

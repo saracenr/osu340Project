@@ -48,7 +48,7 @@ CREATE TABLE `workout` (
 	`sets` int(11) NOT NULL DEFAULT 1, 
 	`weight` int(11),
 	PRIMARY KEY (`id`),
-	CONSTRAINT `workout_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+	CONSTRAINT `workout_fk1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
 	CONSTRAINT `workout_fk2` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

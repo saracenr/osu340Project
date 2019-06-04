@@ -3,7 +3,7 @@ from db_connector.db_connector import connect_to_database, execute_query
 from time import sleep
 
 webapp = Flask(__name__)
-URL = "http://flip2.engr.oregonstate.edu:7892/"
+URL = "http://flip2.engr.oregonstate.edu:7893/"
 
 
 @webapp.route('/')

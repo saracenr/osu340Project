@@ -276,7 +276,7 @@ def add_workout():
 	userList = execute_query(db_connection, userQuery).fetchall()
 	return render_template('workoutTracking.html', rows=result, exercises=exerciseList, users=userList)
 
-	@webapp.route('/update_workout/<int:id>', methods=['POST','GET'])
+@webapp.route('/update_workout/<int:id>', methods=['POST','GET'])
 def update_workout(id):
 	db_connection = connect_to_database()
 	if request.method == 'GET':

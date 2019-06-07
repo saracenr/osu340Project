@@ -35,7 +35,11 @@ def browseUsers():
 	db_connection = connect_to_database()
 	query = "SELECT id, first_name, last_name, date_of_birth, weight, height, gender, routine_id FROM user;"
 	result = execute_query(db_connection, query).fetchall()
+	result = [list(user) for user in result]
 	print(result)
+	for user in result:
+		height = int(user[5])
+		user[5] = str(height // 12) + "'" + str(height % 12) + '"'
 	return render_template('display_Users.html', rows=result)
 
 @webapp.route('/userCreate')
@@ -154,7 +158,10 @@ def update_user(id):
 	db_connection = connect_to_database()
 	if request.method == 'GET':
 		userQuery = "SELECT id, first_name, last_name, height, weight, date_of_birth, gender FROM user WHERE id = %s;" % (id)
-		userResult = execute_query(db_connection, userQuery).fetchone()
+		userResult = list(execute_query(db_connection, userQuery).fetchone())
+		height = userResult[3]
+		userResult[3] = height // 12
+		userResult.insert(4, height % 12)
 		return render_template('userUpdate.html', user=userResult)
 	elif request.method == 'POST':
 		print('Update user!')
@@ -163,11 +170,12 @@ def update_user(id):
 		last_name = request.form['last_name']
 		date_of_birth = request.form['dob']
 		weight = request.form['weight']
-		feet = request.form['feet']
-		# inches = request.form['inches']
+		feet = int(request.form['feet'])
+		inches = int(request.form['inches'])
+		height = str(feet * 12 + inches)
 		gender = request.form['gender']
 		query = 'UPDATE user SET first_name=%s, last_name=%s, date_of_birth=%s, weight=%s, height=%s, gender=%s WHERE id=%s;'
-		data = (first_name, last_name, date_of_birth, weight, feet, gender, userID)
+		data = (first_name, last_name, date_of_birth, weight, height, gender, userID)
 		execute_query(db_connection, query, data)
 		return redirect(url_for('browseUsers'))
 
@@ -180,11 +188,12 @@ def add_user():
 	last_name = request.form['last_name']
 	date_of_birth = request.form['dob']
 	weight = request.form['weight']
-	feet = request.form['feet']
-	inches = request.form['inches']
+	feet = int(request.form['feet'])
+	inches = int(request.form['inches'])
+	height = str(feet * 12 + inches)
 	gender = request.form['gender']
 	query = 'INSERT INTO user (first_name, last_name, date_of_birth, weight, height, gender) VALUES (%s,%s,%s,%s,%s,%s)'
-	data = (first_name, last_name, date_of_birth, weight, feet, gender)
+	data = (first_name, last_name, date_of_birth, weight, height, gender)
 	execute_query(db_connection, query, data)
 	return redirect(url_for('browseUsers'))
 

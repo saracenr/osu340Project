@@ -95,16 +95,24 @@ def create_routine():
 
 @webapp.route('/routineSelect', methods=['POST', 'GET'])
 def routineSelect():
-	print("Fetching routine list")
-	routineID = request.form["routineSelect"]
 	db_connection = connect_to_database()
-	query = "SELECT re.id, r.name, e.name, re.sets, re.reps, re.day_of_the_week FROM `routine_exercise` as re INNER JOIN exercise as e ON e.id = re.exercise_id INNER JOIN routine AS r ON r.id = re.routine_id WHERE re.id == %s"
-	routineQuery = "SELECT id, name FROM `routine`;"
-	data = (routineID,)
-	result = execute_query(db_connection, query, data).fetchall()
-	routineList = execute_query(db_connection, routineQuery).fetchall()
-	print(result)
-	return render_template('routineSelect.html', rows=result, routines=routineList)
+	if request.method == 'GET':
+		query = "SELECT re.id, r.name, e.name, re.sets, re.reps, re.day_of_the_week FROM `routine_exercise` as re INNER JOIN exercise as e ON e.id = re.exercise_id INNER JOIN routine AS r ON r.id = re.routine_id re.id ASC"
+		routineQuery = "SELECT id, name FROM `routine`;"
+		result = execute_query(db_connection, query).fetchall()
+		routineList = execute_query(db_connection, routineQuery).fetchall()
+		print(result)
+		return render_template('routineSelect.html', rows=result, routines=routineList)
+	elif request.method == 'POST':
+		print("Fetching routine list")
+		routineID = request.form["routineSelect"]
+		query = "SELECT re.id, r.name, e.name, re.sets, re.reps, re.day_of_the_week FROM `routine_exercise` as re INNER JOIN exercise as e ON e.id = re.exercise_id INNER JOIN routine AS r ON r.id = re.routine_id WHERE re.id == %s"
+		routineQuery = "SELECT id, name FROM `routine`;"
+		data = (routineID,)
+		result = execute_query(db_connection, query, data).fetchall()
+		routineList = execute_query(db_connection, routineQuery).fetchall()
+		print(result)
+		return render_template('routineSelect.html', rows=result, routines=routineList)
 
 @webapp.route('/muscleGroupCreate')
 def muscleGroupCreate():

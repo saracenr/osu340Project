@@ -31,18 +31,16 @@
     </table>
   </div>
 <div class="routineSelect">
-	<form>
+	<form action="/routineSelect" method="post">
 		<header>Select a routine to follow</header>
 		<div>
-			<!-- Could be a scroll box with available routines and display them?-->
-			<label for="chooseRoutine">Choose a routine!</label>
-			<select id="chooseRoutine">
-				<!-- populate options with js and display the option chosen somewhere? -->
-				<option value="5/3/1">5/3/1</option>
-				<option value="StrongLifts">StrongLifts</option>
-				<option value="IceCream Fitness">IceCream Fitness</option>
-				<option value="PPL">PPL</option>
-		</div>
+      <label for="routineSelect">Choose a routine!</label>
+      <select name='routineSelect'>
+        {% for r in routines %}
+        <option value='{{ r[0] }}' >{{ r[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
 		<input type="submit">
 	</form>
 </div>
@@ -54,28 +52,23 @@
           <th>Exercise Name</th>
           <th>Sets</th>
           <th>Reps</th>
-          <th>Weight</th>
           <th>Days</th>
         </tr>
       </thead>
-      <tbody> 
-        <tr>
-          <td>5/3/1</td>
-          <td>Bench Press</td>
-          <td>3</td>
-          <td>10</td>
-          <td>150</td>
-          <td>A</td>
-        </tr>
-        <tr>
-          <td>5/3/1</td>
-          <td>Squats</td>
-          <td>3</td>
-          <td>5</td>
-          <td>200</td>
-          <td>B</td>
-        </tr>
-      </tbody>
+      <tbody>
+      {% for r in rows %}
+      <tr>
+        <td> {{ r[1] }}</td>
+        <td> {{ r[2] }}</td>
+        <td> {{ r[3] }}</td>
+        <td> {{ r[4] }}</td>
+        <td> {{ r[5] }}</td>
+        <td> <input type='button' name='Update' value='Update'
+            onclick="window.location = '/update_people/{{r[0]}}'"> </td>
+        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r[0]}}'"> </td>
+      </tr>
+      {% endfor %}
+    </tbody>
     </table>
   </div>
 </body>

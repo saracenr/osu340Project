@@ -6,7 +6,11 @@
 	</head>
 	<body>
         <form action="/update_exercise" method="post">
-            <header>Editing exercise: {{ exercise[1] }}</header>
+            <header>Editing exercise</header>
+            <div>
+                <label for="first_name">Exercise name</label>
+                <input type="text" name="exercise_name" value="{{ exercise[1] }}">
+            </div>
             <input type="hidden" name="exercise_id" value = "{{ exercise[0] }}">
             {% for muscleGroup in selectedMuscles %}
             <input type="checkbox" name="muscleGroups" value='{{ muscleGroup[0] }}' checked=checked>{{ muscleGroup[1] }}</input>

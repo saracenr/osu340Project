@@ -254,7 +254,10 @@ def update_exercise():
 	elif request.method == 'POST':
 		print('Updating exercise!')
 		exercise_id = request.form['exercise_id']
+		exercise_name = request.form['exercise_name']
 		data = (exercise_id,)
+		exerciseNameQuery = "UPDATE exercise SET name=(%s) WHERE id=(%s)"
+		execute_query(db_connection, exerciseNameQuery, (exercise_name, exercise_id))
 		muscleGroupQuery = "SELECT muscle_id FROM exercise_muscle WHERE exercise_id=(%s)"
 		muscleGroupResult = execute_query(db_connection, muscleGroupQuery, data).fetchall()
 		for muscle_id in muscleGroupResult:

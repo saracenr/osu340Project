@@ -68,7 +68,7 @@ CREATE TABLE `routine_exercise` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`routine_id` int(11) NOT NULL,
 	`exercise_id` int(11) NOT NULL,
-	`day_of_the_week` date,
+	`day_of_the_week` varchar(255),
 	`sets` int(11) NOT NULL,
 	`reps` int(11) NOT NULL,
 	PRIMARY KEY (`id`),

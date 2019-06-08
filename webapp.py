@@ -114,6 +114,38 @@ def routineSelect():
 		print(result)
 		return render_template('routineSelect.html', rows=result, routines=routineList)
 
+@webapp.route('/update_routine/<int:id>', methods=['POST','GET'])
+def update_routine(id):
+	db_connection = connect_to_database()
+	if request.method == 'GET':
+		routineExerciseQuery = "SELECT id, routine_id, exercise_id, sets, reps, day_of_the_week FROM routine_exercise WHERE id = %s;" % (id)
+		exerciseQuery = "SELECT id, name FROM `exercise`;"
+		routineQuery = "SELECT id, name FROM `routine`;"
+		routineExerciseResult = list(execute_query(db_connection, userQuery).fetchone())
+		exerciseList = execute_query(db_connection, exerciseQuery).fetchall()
+		routineList = execute_query(db_connection, routineQuery).fetchall()
+		return render_template('updateRoutineExercise.html', routineExercise=routineExerciseResult, routines=routineList, exercises=exerciseList)
+	elif request.method == 'POST':
+		print('Update routine!')
+		routineExerciseID = request.form['routineExercise_id']
+		routineID = request.form['routineName']
+		exerciseID = request.form['exerciseName']
+		sets = request.form['sets']
+		reps = request.form['reps']
+		days = request.form['days']
+		query = 'UPDATE routine_exercise SET routine_id=%s, exercise_id=%s, sets=%s, reps=%s, day_of_the_week=%s WHERE id=%s;'
+		data = (routineID, exerciseID, sets, reps, days, routineExerciseID)
+		execute_query(db_connection, query, data)
+		return redirect(url_for('routineSelect'))
+
+@webapp.route('/delete_routine/<int:id>', methods=['POST','GET'])
+def delete_routine(id):
+	db_connection = connect_to_database()	
+	query = 'DELETE FROM routine_exercise WHERE id=%s;'
+	data = (id,)
+	execute_query(db_connection, query, data)
+	return redirect(url_for('routineSelect'))
+
 @webapp.route('/muscleGroupCreate')
 def muscleGroupCreate():
 	print("Fetching muscle group list")

@@ -121,7 +121,7 @@ def update_routine(id):
 		routineExerciseQuery = "SELECT id, routine_id, exercise_id, sets, reps, day_of_the_week FROM routine_exercise WHERE id = %s;" % (id)
 		exerciseQuery = "SELECT id, name FROM `exercise`;"
 		routineQuery = "SELECT id, name FROM `routine`;"
-		routineExerciseResult = list(execute_query(db_connection, userQuery).fetchone())
+		routineExerciseResult = list(execute_query(db_connection, routineExerciseQuery).fetchone())
 		exerciseList = execute_query(db_connection, exerciseQuery).fetchall()
 		routineList = execute_query(db_connection, routineQuery).fetchall()
 		return render_template('updateRoutineExercise.html', routineExercise=routineExerciseResult, routines=routineList, exercises=exerciseList)

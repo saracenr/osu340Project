@@ -32,7 +32,7 @@
   </div>
 <div class="routineSelect">
 	<form action="/routineSelect" method="post">
-		<header>Select a routine to follow</header>
+		<header>Select a routine to see its contents!</header>
 		<div>
       <label for="routineSelect">Choose a routine!</label>
       <select name='routineSelect'>
@@ -41,7 +41,7 @@
         {% endfor %}
       </select>
     </div>
-		<input type="submit">
+		<input type="submit" value='Display'>
 	</form>
 </div>
 <div class="table">
@@ -64,8 +64,8 @@
         <td> {{ r[4] }}</td>
         <td> {{ r[5] }}</td>
         <td> <input type='button' name='Update' value='Update'
-            onclick="window.location = '/update_people/{{r[0]}}'"> </td>
-        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r[0]}}'"> </td>
+            onclick="window.location = '/update_routine/{{r[0]}}'"> </td>
+        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_routine/{{r[0]}}'"> </td>
       </tr>
       {% endfor %}
     </tbody>

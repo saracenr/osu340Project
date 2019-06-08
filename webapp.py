@@ -3,7 +3,7 @@ from db_connector.db_connector import connect_to_database, execute_query
 from time import sleep
 
 webapp = Flask(__name__)
-URL = "http://flip2.engr.oregonstate.edu:7893/"
+URL = "http://flip2.engr.oregonstate.edu:7896/"
 
 
 @webapp.route('/')
@@ -139,9 +139,16 @@ def update_muscle(id):
 		name = request.form['name']		
 		query = 'UPDATE muscle SET name=%s WHERE id=%s;'
 		data = (name, muscle_id)
-		print('data: ', data)
 		execute_query(db_connection, query, data)
 		return redirect(url_for('muscleGroupCreate'))
+
+@webapp.route('/delete_muscle/<int:id>', methods=['POST','GET'])
+def delete_muscle(id):
+	db_connection = connect_to_database()
+	print('Deleting muscle!')
+	query = "DELETE FROM muscle WHERE id = %s;" % (id)
+	execute_query(db_connection, query)
+	return redirect(url_for('muscleGroupCreate'))
 
 @webapp.route('/exerciseCreate')
 def exerciseCreate():
@@ -237,8 +244,8 @@ def update_exercise():
 	if request.method == 'GET':
 		print('Editing exercise!')
 		data = (request.args.get('id'),)
-		exerciseQuery = "SELECT name FROM exercise WHERE id=(%s)"
-		exerciseResult = execute_query(db_connection, exerciseQuery, data).fetchall()
+		exerciseQuery = "SELECT id, name FROM exercise WHERE id=(%s)"
+		exerciseResult = execute_query(db_connection, exerciseQuery, data).fetchone()
 		selectedMusclesQuery = "SELECT m.id, m.name FROM exercise AS e JOIN exercise_muscle AS em ON e.id=em.exercise_id JOIN muscle AS m ON em.muscle_id=m.id WHERE e.id=(%s)"
 		selectedMusclesResult = execute_query(db_connection, selectedMusclesQuery, data).fetchall()
 		unselectedMusclesQuery = "SELECT m.id, m.name FROM muscle AS m WHERE m.id NOT IN (SELECT m.id FROM exercise AS e JOIN exercise_muscle AS em ON e.id=em.exercise_id JOIN muscle AS m ON em.muscle_id=m.id WHERE e.id=(%s))"
@@ -248,10 +255,12 @@ def update_exercise():
 		print('Updating exercise!')
 		exercise_id = request.form['exercise_id']
 		data = (exercise_id,)
-		muscleDeleteQuery = "DELETE FROM exercise_muscle WHERE exercise_id=(%s)"
-		execute_query(db_connection, muscleDeleteQuery, data)
+		muscleGroupQuery = "SELECT muscle_id FROM exercise_muscle WHERE exercise_id=(%s)"
+		muscleGroupResult = execute_query(db_connection, muscleGroupQuery, data).fetchall()
+		for muscle_id in muscleGroupResult:
+			muscleDeleteQuery = "DELETE FROM exercise_muscle WHERE muscle_id=(%s) AND exercise_id=(%s)"
+			execute_query(db_connection, muscleDeleteQuery, (muscle_id, exercise_id))
 		for muscle_id in request.form.getlist('muscleGroups'):
-			print(muscle_id)
 			query = 'INSERT INTO exercise_muscle (exercise_id, muscle_id) VALUES (%s,%s)'
 			data = (exercise_id, muscle_id)
 			execute_query(db_connection, query, data)
@@ -261,6 +270,19 @@ def update_exercise():
 		exerciseQuery = "SELECT id, name FROM exercise"
 		exerciseResult = execute_query(db_connection, exerciseQuery).fetchall()
 		return render_template('exerciseCreate.html', muscleGroups=muscleGroupResult, exercises=exerciseResult)
+
+@webapp.route('/delete_exercise', methods=['POST', 'GET'])
+def delete_exercise():
+	db_connection = connect_to_database()
+	print('Deleting exercise!')
+	data = (request.args.get('id'),)
+	# print('id: ', data)
+	# test = "SELECT muscle_id FROM exercise_muscle"
+	# result = execute_query(db_connection, test).fetchall()
+	# print(result)
+	deleteQuery = "DELETE FROM exercise WHERE id=(%s)"
+	execute_query(db_connection, deleteQuery, data)
+	return redirect(url_for('exerciseCreate'))
 
 @webapp.route('/add_workout', methods=['POST','GET'])
 def add_workout():

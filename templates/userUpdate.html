@@ -36,6 +36,14 @@
 			<label for="gender">Gender</label>
 			<input type="text" name="gender" value='{{ user[7] }}'>
 		</div>
+		<div>
+      <label for="routineName">Select the routine for this user!</label>
+      <select name='routineName' value='{{ user[8] }}'>
+        {% for r in routines %}
+        <option value='{{ r[0] }}' >{{ r[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
 		<input type="submit">
 	</form>	
 </div>

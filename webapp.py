@@ -33,7 +33,7 @@ def workoutTracking():
 def browseUsers():
 	print("Fetching user list")
 	db_connection = connect_to_database()
-	query = "SELECT id, first_name, last_name, date_of_birth, weight, height, gender, routine_id FROM user;"
+	query = "SELECT u.id, u.first_name, u.last_name, u.date_of_birth, u.weight, u.height, u.gender, r.name FROM user AS u INNER JOIN routine as r ON r.id = u.routine_id;"
 	result = execute_query(db_connection, query).fetchall()
 	result = [list(user) for user in result]
 	print(result)
@@ -223,12 +223,14 @@ def exerciseCreate():
 def update_user(id):
 	db_connection = connect_to_database()
 	if request.method == 'GET':
-		userQuery = "SELECT id, first_name, last_name, height, weight, date_of_birth, gender FROM user WHERE id = %s;" % (id)
+		userQuery = "SELECT id, first_name, last_name, height, weight, date_of_birth, gender, routine_id FROM user WHERE id = %s;" % (id)
+		routineQuery = "SELECT id, name FROM `routine`;"
 		userResult = list(execute_query(db_connection, userQuery).fetchone())
+		routineList = execute_query(db_connection, routineQuery).fetchall()
 		height = userResult[3]
 		userResult[3] = height // 12
 		userResult.insert(4, height % 12)
-		return render_template('userUpdate.html', user=userResult)
+		return render_template('userUpdate.html', user=userResult, routines=routineList)
 	elif request.method == 'POST':
 		print('Update user!')
 		userID = request.form['user_id']
@@ -240,8 +242,9 @@ def update_user(id):
 		inches = int(request.form['inches'])
 		height = str(feet * 12 + inches)
 		gender = request.form['gender']
-		query = 'UPDATE user SET first_name=%s, last_name=%s, date_of_birth=%s, weight=%s, height=%s, gender=%s WHERE id=%s;'
-		data = (first_name, last_name, date_of_birth, weight, height, gender, userID)
+		routineID = request.form['routineName']
+		query = 'UPDATE user SET first_name=%s, last_name=%s, date_of_birth=%s, weight=%s, height=%s, gender=%s, routine_id=%s WHERE id=%s;'
+		data = (first_name, last_name, date_of_birth, weight, height, gender, routineID, userID)
 		execute_query(db_connection, query, data)
 		return redirect(url_for('browseUsers'))
 

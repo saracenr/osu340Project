@@ -32,7 +32,7 @@
   </div>
 <div class="routineSelect">
 	<form action="/routineSelect" method="post">
-		<header>Select a routine to see its contents!</header>
+		<h3>Select a routine to see its contents!</h3>
 		<div>
       <label for="routineSelect">Choose a routine!</label>
       <select name='routineSelect'>
@@ -71,11 +71,13 @@
     </tbody>
     </table>
   </div>
-
+<div>
+  <h3>Use the below to select a routine for a user to follow!</h3>
+</div>
   <div class="userRoutine">
   <form action="/add_userRoutine" method="post">
     <div>
-      <label for="userName">Select a user to follow the routine below!</label>
+      <label for="userName">Select a user!</label>
       <select name='userName'>
         {% for u in users %}
         <option value='{{ u[0] }}' >{{ u[1] }} {{ u[2] }}</option>

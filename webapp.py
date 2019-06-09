@@ -3,7 +3,7 @@ from db_connector.db_connector import connect_to_database, execute_query
 from time import sleep
 
 webapp = Flask(__name__)
-URL = "http://flip2.engr.oregonstate.edu:7896/"
+URL = "http://flip2.engr.oregonstate.edu:7899/"
 
 
 @webapp.route('/')
@@ -341,10 +341,6 @@ def delete_exercise():
 	db_connection = connect_to_database()
 	print('Deleting exercise!')
 	data = (request.args.get('id'),)
-	# print('id: ', data)
-	# test = "SELECT muscle_id FROM exercise_muscle"
-	# result = execute_query(db_connection, test).fetchall()
-	# print(result)
 	deleteQuery = "DELETE FROM exercise WHERE id=(%s)"
 	execute_query(db_connection, deleteQuery, data)
 	return redirect(url_for('exerciseCreate'))

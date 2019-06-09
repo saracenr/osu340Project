@@ -99,20 +99,24 @@ def routineSelect():
 	if request.method == 'GET':
 		query = "SELECT re.id, r.name, e.name, re.sets, re.reps, re.day_of_the_week FROM `routine_exercise` as re INNER JOIN exercise as e ON e.id = re.exercise_id INNER JOIN routine AS r ON r.id = re.routine_id ORDER BY r.id ASC;"
 		routineQuery = "SELECT id, name FROM `routine`;"
+		userQuery = "SELECT id, first_name, last_name FROM `user`;"
 		result = execute_query(db_connection, query).fetchall()
 		routineList = execute_query(db_connection, routineQuery).fetchall()
+		userList = execute_query(db_connection, userQuery).fetchall()
 		print(result)
-		return render_template('routineSelect.html', rows=result, routines=routineList)
+		return render_template('routineSelect.html', rows=result, routines=routineList, users=userList)
 	elif request.method == 'POST':
 		print("Fetching routine list")
 		routineID = request.form["routineSelect"]
 		query = "SELECT re.id, r.name, e.name, re.sets, re.reps, re.day_of_the_week FROM `routine_exercise` as re INNER JOIN exercise as e ON e.id = re.exercise_id INNER JOIN routine AS r ON r.id = re.routine_id WHERE r.id = %s;"
 		routineQuery = "SELECT id, name FROM `routine`;"
+		userQuery = "SELECT id, first_name, last_name FROM `user`;"
 		data = (routineID,)
 		result = execute_query(db_connection, query, data).fetchall()
 		routineList = execute_query(db_connection, routineQuery).fetchall()
+		userList = execute_query(db_connection, userQuery).fetchall()
 		print(result)
-		return render_template('routineSelect.html', rows=result, routines=routineList)
+		return render_template('routineSelect.html', rows=result, routines=routineList, users=userList)
 
 @webapp.route('/update_routine/<int:id>', methods=['POST','GET'])
 def update_routine(id):
@@ -145,6 +149,17 @@ def delete_routine(id):
 	data = (id,)
 	execute_query(db_connection, query, data)
 	return redirect(url_for('routineSelect'))
+
+@webapp.route('/add_userRoutine', methods=['POST','GET'])
+def add_userRoutine():
+	db_connection = connect_to_database()
+	userID = request.form['userName']
+	routineID = request.form['userRoutine']
+	query = 'UPDATE user SET routine_id=%s WHERE id=%s;'
+	data = (routineID, userID)
+	print(data)
+	execute_query(db_connection, query, data)
+	return redirect(url_for('browseUsers'))
 
 @webapp.route('/muscleGroupCreate')
 def muscleGroupCreate():

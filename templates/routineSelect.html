@@ -71,5 +71,27 @@
     </tbody>
     </table>
   </div>
+
+  <div class="userRoutine">
+  <form action="/add_userRoutine" method="post">
+    <div>
+      <label for="userName">Select a user to follow the routine below!</label>
+      <select name='userName'>
+        {% for u in users %}
+        <option value='{{ u[0] }}' >{{ u[1] }} {{ u[2] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="userRoutine">Choose the routine!</label>
+      <select name='userRoutine'>
+        {% for r in routines %}
+        <option value='{{ r[0] }}' >{{ r[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input type="submit" value='Submit'>
+  </form>
+</div>
 </body>
 </html>
